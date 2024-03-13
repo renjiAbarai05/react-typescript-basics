@@ -4,40 +4,27 @@
 // };
 
 import { type PropsWithChildren } from "react"
+import { useGoals } from "../hooks/useGoals"
 
 type CourseGoalProps = PropsWithChildren<{
   id: number
   title: string
-  onDelete: (id: number) => void
 }>
 
-export default function CourseGoal({
-  id,
-  title,
-  onDelete,
-  children,
-}: CourseGoalProps) {
+export default function CourseGoal({ id, title, children }: CourseGoalProps) {
+  const { dispatch } = useGoals()
+
+  function handleDeleteGoal(id: number) {
+    dispatch({ type: "DELETE", payload: id })
+  }
+
   return (
     <article>
       <div>
         <h2>{title}</h2>
         {children}
       </div>
-      <button onClick={() => onDelete(id)}>Delete</button>
+      <button onClick={() => handleDeleteGoal(id)}>Delete</button>
     </article>
   )
 }
-
-// const CourseGoal: FC<CourseGoalProps> = ({ title, children }) => {
-// 	return (
-// 		<article>
-// 			<div>
-// 				<h2>{title}</h2>
-// 				{children}
-// 			</div>
-// 			<button>Delete</button>
-// 		</article>
-// 	);
-// };
-
-// export default CourseGoal;

@@ -1,11 +1,10 @@
 import { FormEvent, useRef } from "react"
+import { useGoals } from "../hooks/useGoals"
 
-type NewGoaLProps = {
-  onAddGoal: (goal: string, summary: string) => void
-}
-function NewGoaL({ onAddGoal }: NewGoaLProps) {
+function NewGoaL() {
   const goal = useRef<HTMLInputElement>(null)
   const summary = useRef<HTMLInputElement>(null)
+  const { dispatch } = useGoals()
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -19,7 +18,15 @@ function NewGoaL({ onAddGoal }: NewGoaLProps) {
 
     e.currentTarget.reset()
 
-    onAddGoal(enteredGoal, enteredSummary)
+    // onAddGoal(enteredGoal, enteredSummary)
+    dispatch({
+      type: "ADD",
+      payload: {
+        title: enteredGoal,
+        description: enteredSummary,
+        id: Math.random() * 1000,
+      },
+    })
   }
 
   return (
