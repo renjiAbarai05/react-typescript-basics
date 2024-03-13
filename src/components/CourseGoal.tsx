@@ -1,43 +1,22 @@
-// type CourseGoalProps = {
-// 	title: string;
-// 	children: React.ReactNode;
-// };
-
 import { type PropsWithChildren } from "react"
+import { useAppDispatch } from "../app/hooks"
+import { deleteGoal } from "../features/goals/goalsSlice"
 
 type CourseGoalProps = PropsWithChildren<{
   id: number
   title: string
-  onDelete: (id: number) => void
 }>
 
-export default function CourseGoal({
-  id,
-  title,
-  onDelete,
-  children,
-}: CourseGoalProps) {
+export default function CourseGoal({ id, title, children }: CourseGoalProps) {
+  const dispatch = useAppDispatch()
+
   return (
     <article>
       <div>
         <h2>{title}</h2>
         {children}
       </div>
-      <button onClick={() => onDelete(id)}>Delete</button>
+      <button onClick={() => dispatch(deleteGoal(id))}>Delete</button>
     </article>
   )
 }
-
-// const CourseGoal: FC<CourseGoalProps> = ({ title, children }) => {
-// 	return (
-// 		<article>
-// 			<div>
-// 				<h2>{title}</h2>
-// 				{children}
-// 			</div>
-// 			<button>Delete</button>
-// 		</article>
-// 	);
-// };
-
-// export default CourseGoal;
